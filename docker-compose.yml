@@ -12,7 +12,7 @@ services:
   odoo:
     image: docker.io/bitnami/odoo:latest
     ports:
-      - '8077:8069'
+      - '8015:8069'
     volumes:
       - 'odoo_data:/bitnami/odoo'
     depends_on:
