@@ -20,9 +20,9 @@ jobs:
       - name: Deploy to Docker
         uses: appleboy/ssh-action@master
         with:
-          host: 159.223.174.134
-          username: root
-          password: ${{ 'Merq#7Admin' }}
+          host: localhost
+          username: 
+          password: ${{ '' }}
           script: |
             docker pull docker.io/bitnami/odoo:latest
             docker stop merq_hq_internal_management_system-odoo-1 || true
