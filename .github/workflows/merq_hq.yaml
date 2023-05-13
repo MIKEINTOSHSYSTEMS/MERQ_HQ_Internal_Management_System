@@ -1,0 +1,30 @@
+name: Odoo Docker Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: mikeintosh/merq_hq_internal_management_system:latest
+      - name: Deploy to Docker
+        uses: appleboy/ssh-action@master
+        with:
+          host: 159.223.174.134
+          username: root
+          password: ${{ 'Merq#7Admin' }}
+          script: |
+            docker pull docker.io/bitnami/odoo:latest
+            docker stop merq_hq_internal_management_system-odoo-1 || true
+            docker rm merq_hq_internal_management_system-odoo-1 || true
+            docker run -d --name merq_hq_internal_management_system-odoo-1 -p 8015:8069 docker.io/bitnami/odoo:latest
